@@ -1,0 +1,6 @@
+@RoomApp_HostAddress = http://localhost:5157
+
+GET {{RoomApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
