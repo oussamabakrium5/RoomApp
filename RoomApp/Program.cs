@@ -1,24 +1,25 @@
-using Microsoft.EntityFrameworkCore;
-using RoomApp.Data;
-using RoomApp.Infrastructure;
-using RoomApp.Interfaces;
+using RoomApp.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(option =>
-{
-    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-builder.Services.AddScoped<IRoomRepository, RoomRepository>();
-
-
+builder.RegisterServices();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
+app.Use(async (context, next) =>
+{
+	try
+	{
+		await next();
+	}
+	catch (Exception)
+	{
+		context.Response.StatusCode = 500;
+		await context.Response.WriteAsync("An error ocurred");
+	}
+});
 app.UseHttpsRedirection();
 
-app.MapRoomEndpoints();
+app.RegisterEndpointDefinitions();
 
 app.Run();

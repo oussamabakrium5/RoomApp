@@ -11,7 +11,7 @@ using RoomApp.Data;
 namespace RoomApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240301001231_first")]
+    [Migration("20240304100306_first")]
     partial class first
     {
         /// <inheritdoc />
